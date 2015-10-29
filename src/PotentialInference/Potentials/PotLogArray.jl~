@@ -71,8 +71,7 @@ function sum(A::PotLogArray,variables=A.variables;SumOver::Any=true)
     newvars=setdiff(A.variables,variables)
     table_variables=memberinds(variables,A.variables)
     tmp=sum(pA.content,table_variables)
-    #tmp=squeeze(tmp,find(memberinds(size(tmp),1)))
-    tmp=squeeze(tmp,tuple(find(memberinds(size(tmp),1))...))
+    tmp=squeeze(tmp,find(memberinds(size(tmp),1)))
 
     return PotLogArray(newvars,log(tmp)+logprefactor)
 end

@@ -2,14 +2,14 @@
 module BrmlFunctions
 # General helper functions:
 
-#VERSION < v"0.4-" && using Docile
-#@docstrings
+VERSION < v"0.4-" && using Docile
+@docstrings
 
 import Base: vec, findmax
 
 
 export vec
-@doc """
+@doc """ 
  Creates a vector with 1 element of value v
 """ ->
 function vec(v::Integer)
@@ -33,8 +33,7 @@ export SparseIntMatrix
 * `N`:     number of columns
 """ ->
 function SparseIntMatrix(M,N)
-    #return Int(spzeros(M,N))
-    return round(Int64,spzeros(M,N))
+    return int(spzeros(M,N))
 end
 
 export fillmatrix!
@@ -64,8 +63,7 @@ export states
 function states(ns)
     # enumerate all states eg states([2 2 3]) (like ind2subv.m)
     # first index changes the most (like matlab)
-    #ns=fliplr(ns)
-    ns=flipdim(ns,2)
+    ns=fliplr(ns)
     n=length(ns)
     nstates=prod(vec(ns))
     c=cumprod(vec(ns[end:-1:1]))
@@ -78,8 +76,7 @@ function states(ns)
             tmp=tmp-s[i,n+1-j]*c[j]
         end
     end
-    #return fliplr(s.+1)
-    return flipdim(s.+1,2)
+    return fliplr(s.+1)
 end
 
 export standardise
@@ -225,7 +222,7 @@ export istree
 
     tree, elimseq, schedule = istree(A, <root>=[]; <ReturnElimSeq>=false)
 
-##### Input :
+##### Input : 
 * `A`: graph's adjacency matrix (zeros on diagonal)
 * `root`: (_optional_) root node of the graph
 
@@ -304,7 +301,7 @@ end
 export findmax
 @doc """
  Maximises a multi-dimensional array over a set of dimensions
-
+    
     [maxval maxstate] = findmax(A, variables)
 
 * `A`:         array to fill
@@ -336,7 +333,7 @@ export randgen
 function randgen(p)
     p=p./sum(p)
     f=find(rand().<cumsum(vec(p)))
-    return(Int(minimum(f)))
+    return(int(minimum(f)))
 end
 
 export myipermutedims
@@ -392,7 +389,7 @@ export condp
 * `pnew`:    a new matrix with **`sum(pnew, 1) = ones(1, size(p, 2))`**
 
 ##### Example:
-    r = rand(4, 2, 3);
+    r = rand(4, 2, 3); 
     p = condp(r, DistributionIndices=[3 1]);
 
 **`p`** is now an array of the same size as **`r`**, but with **`sum(sum(p,3),1) = 1`** for each of the dimensions of the 2nd index.

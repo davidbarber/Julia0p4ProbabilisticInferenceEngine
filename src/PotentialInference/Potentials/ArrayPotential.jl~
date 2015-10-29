@@ -15,8 +15,7 @@ function max(pot::ArrayPotential,variables;MaxOver=true,ReturnState=false,Ind2Su
 
     maxval,maxind=findmax(pot.content,max_variables) ## PROBABLY SHOULD CHANGE TO THE MAX FUNCTION -- NEED TO ENSURE THIS CAN WORK FOR ANY POTENTIAL
 
-    #maxval=squeeze(maxval,find(memberinds(size(maxval),1)))
-    maxval=squeeze(maxval,tuple(find(memberinds(size(maxval),1))...))
+    maxval=squeeze(maxval,find(memberinds(size(maxval),1)))
 
     outpot=deepcopy(pot)
     outpot.variables=newvars; outpot.content=maxval

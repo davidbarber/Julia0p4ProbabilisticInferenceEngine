@@ -4,7 +4,7 @@ function demoSumProdStandardiseVariables()
     r=randperm(10)
     variables=r[1:5] # In this code, the variables do not need to be numbered 1:end
     a, b, c, d, e=variables
-    nstates=round(Int64,3*rand(1,5)+2) # random number of states for each variable
+    nstates=int(3*rand(1,5)+2) # random number of states for each variable
 
     pot=Array(PotArray,5)
     pot[1]=PotArray([a b],rand(nstates[memberinds([a b],variables)]...))

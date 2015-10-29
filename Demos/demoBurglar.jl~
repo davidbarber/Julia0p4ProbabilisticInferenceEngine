@@ -1,7 +1,7 @@
 function demoBurglar()
 
     burglar,earthquake,alarm,radio=1,2,3,4 # Variable order is arbitary
-    yes,no= 1,2 # define states, starting from 1
+    yes, no= 1,2 # define states, starting from 1
 
     # This defines the meaning of the variables and their states.
     # It is not necessary for the computation, but is useful for
