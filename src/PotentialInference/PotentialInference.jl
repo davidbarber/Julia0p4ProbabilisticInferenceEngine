@@ -11,9 +11,6 @@ abstract ArrayPotential <: DiscretePotential
 
 
 # Type Unions:
-export IntOrIntArray
-IntOrIntArray=Union{Integer,Array{Integer},Array{}} # include also the ranges and vectors
-
 export DictOrArray
 DictOrArray=Union{Dict,Array}
 

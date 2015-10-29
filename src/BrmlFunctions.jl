@@ -7,6 +7,10 @@ module BrmlFunctions
 
 import Base: vec, findmax
 
+# Type Unions:
+export IntOrIntArray
+IntOrIntArray=Union{Integer,Array{Integer},Array{}} # include also the ranges and vectors
+
 
 export vec
 @doc """
@@ -401,7 +405,7 @@ export condp
 
 **`p=condp(r,0)`** returns a normalised array **`p = r./sum(r(:))`**
 """ ->
-function condp(p; DistributionIndices=[]) ## FIXME! This doesn't work when p is more than an 2D array
+function condp(p; DistributionIndices::IntOrIntArray=[]) ## FIXME! This doesn't work when p is more than an 2D array
     p=p+realmin(); # in case all unnormalised probabilities are zero
 
     if isempty(DistributionIndices)
@@ -415,14 +419,41 @@ function condp(p; DistributionIndices=[]) ## FIXME! This doesn't work when p is 
         allvars=1:length(size(p))
         sizevars=size(p)
         condvars=setdiff(allvars,DistributionIndices)
-        newp=deepcopy(permutedims(p,[DistributionIndices condvars]))
+        newp=deepcopy(permutedims(p,vcat(DistributionIndices,condvars)))
         newp=reshape(newp,prod(sizevars[DistributionIndices]),prod(sizevars[condvars]))
         newp=newp./repmat(sum(newp,1),size(newp,1),1)
-        pnew=reshape(newp,sizevars[[DistributionIndices condvars]])
-        pnew=ipermutedims(pnew,[DistributionIndices condvars])
+        pnew=reshape(newp,sizevars[vcat(DistributionIndices,condvars)])
+        pnew=ipermutedims(pnew,vcat(DistributionIndices,condvars))
         return pnew
     end
 end
+
+
+
+function condp(p, DistributionIndices=[]) ## FIXME! This doesn't work when p is more than an 2D array
+
+    if isempty(DistributionIndices)
+        p=p./repmat(sum(p,1),size(p,1),1)
+        return p
+    else
+    if DistributionIndices==0
+        p=p./sum(p[:])
+        return p
+    end
+        p=p+realmin(); # in case all unnormalised probabilities are zero
+        allvars=1:length(size(p))
+        sizevars=size(p)
+        condvars=setdiff(allvars,DistributionIndices)
+        newp=deepcopy(permutedims(p,vcat(DistributionIndices,condvars)))
+        newp=reshape(newp,prod(sizevars[DistributionIndices]),prod(sizevars[condvars]))
+        newp=newp./repmat(sum(newp,1),size(newp,1),1)
+        pnew=reshape(newp,sizevars[vcat(DistributionIndices,condvars)])
+        pnew=ipermutedims(pnew,vcat(DistributionIndices,condvars))
+        return pnew
+    end
+end
+
+
 
 export condexp
 @doc """
