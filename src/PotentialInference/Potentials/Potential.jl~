@@ -1,6 +1,6 @@
 export condpot
 function condpot{T<:Potential}(p::T,x::IntOrIntArray=[],y::IntOrIntArray=[])
-    # compute the table p(x|y)=p(x,y)/p(y)
+    # compute p(x|y)=p(x,y)/p(y)
     if isempty(x) &&!isempty(y)
         error("first argument of condpot is empty and second argument is non-empty")
     end
