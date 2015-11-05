@@ -11,7 +11,7 @@ function condpot{T<:Potential}(p::T,x::IntOrIntArray=[],y::IntOrIntArray=[])
             return(sum(p,x,SumOver=false)/sum(p))
         else
             pxy=sum(p,[x y],SumOver=false)
-            py=sum(pxy,y,SumOver=false)
+            py=sum(pxy,y...,SumOver=false)
             return pxy/py
         end
     end
